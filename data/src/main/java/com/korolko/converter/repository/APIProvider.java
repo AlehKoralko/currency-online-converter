@@ -59,8 +59,8 @@ class APIProvider {
 
     private List<CurrencyDTO> initCurrenciesFromJson() {
         Gson gson = new Gson();
-        CurrencyDTO[] array = gson.fromJson(getJsonFromUrl(), CurrencyDTO[].class);
-        return Arrays.asList(array);
+        CurrencyDTO[] currencyDTOs = gson.fromJson(getJsonFromUrl(), CurrencyDTO[].class);
+        return Arrays.asList(currencyDTOs);
     }
 
     private String getJsonFromUrl() {
