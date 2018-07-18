@@ -24,7 +24,7 @@ public class CurrencyRestController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<Currency>> convertTo() {
+    public ResponseEntity<List<Currency>> getAllCurrencies() {
         List<Currency> currencies = currencyService.getAll();
 
         if (currencies == null) {
