@@ -28,6 +28,7 @@
         <module>web</module>
         <module>entity</module>
         <module>data</module>
+        <module>frontend-vuejs</module>
     </modules>
 
     <dependencies>
