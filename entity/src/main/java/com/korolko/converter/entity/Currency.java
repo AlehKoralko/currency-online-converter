@@ -18,7 +18,8 @@ public class Currency {
 
     public Currency() {}
 
-    public Currency(String name, String abbreviation, double rate, int scale) {
+    public Currency(long id, String name, String abbreviation, double rate, int scale) {
+        this.id = id;
         this.name = name;
         this.abbreviation = abbreviation;
         this.rate = rate;

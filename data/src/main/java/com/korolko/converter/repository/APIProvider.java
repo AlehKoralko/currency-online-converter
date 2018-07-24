@@ -36,7 +36,9 @@ class APIProvider {
     }
 
     List<Currency> getAllCurrencies() {
-        return converter.convertAll(currencyDTOs);
+        List<Currency> currencies = converter.convertAll(currencyDTOs);
+        currencies.add(getBYNCurrency());
+        return currencies;
     }
 
     private void openConnection() throws IOException {
@@ -75,5 +77,19 @@ class APIProvider {
             e.printStackTrace();
         }
         return stringBuilder != null ? stringBuilder.toString() : "";
+    }
+
+    /**
+     * This is necessary because the National Bank doesn't provide
+     * data about BYN currency
+     *
+     * @return BYN currency
+     */
+    private Currency getBYNCurrency() {
+        return new Currency(1L,
+                "Белорусский рубль",
+                "BYN",
+                1d ,
+                1);
     }
 }
