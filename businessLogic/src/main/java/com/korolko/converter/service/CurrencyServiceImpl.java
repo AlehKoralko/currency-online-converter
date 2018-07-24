@@ -43,8 +43,17 @@ class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public double convert(Currency currentCurrency, Currency targetCurrency, double amount) {
-        logger.info("Convert %d %d to %d", amount, currentCurrency, targetCurrency);
-        return currentCurrency.convertTo(targetCurrency, amount);
+    public double convert(String currentAbbr, String targetAbbr, double amount) {
+        Optional<Currency> currentCurrency = currencyRepo.findByAbbreviation(currentAbbr);
+
+        if (! currentCurrency.isPresent()) {
+            logger.info(currentAbbr + " Currency not found.");
+            return 0d;
+        }
+
+        logger.info("Convert " + amount + " " + currentAbbr + " to " + targetAbbr);
+        return currentCurrency.get()
+                .convertTo(currencyRepo.findByAbbreviation(targetAbbr).get(),
+                        amount);
     }
 }

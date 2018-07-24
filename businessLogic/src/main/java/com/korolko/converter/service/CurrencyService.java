@@ -15,14 +15,6 @@ public interface CurrencyService {
 
     List<Currency> getAll();
 
-    /**
-     *This method is designed to convert one currency to another
-     *
-     * @param currentCurrency means the currency that is converted
-     * @param targetCurrency means the currency into which to convert
-     * @param amount this is the amount of the current currency
-     * @return the converted value currentCurrency to targetCurrency
-     */
-    double convert(Currency currentCurrency, Currency targetCurrency, double amount);
+    double convert(String currentAbbr, String targetAbbr, double amount);
 
 }
