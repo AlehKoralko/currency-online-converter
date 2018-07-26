@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,11 +55,10 @@ public class CurrencyRestController {
 
     @GetMapping(value = "/convert", params = {"current", "target", "amount"},
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Double> convert(@RequestParam("current") String currentAbbr,
-                                        @RequestParam("target") String targetAbbr,
-                                        @RequestParam("amount") int amount) {
-
-        double convertValue = currencyService.convert(currentAbbr, targetAbbr, amount);
+    public ResponseEntity<BigDecimal> convert(@RequestParam("current") String currentAbbr,
+                                              @RequestParam("target") String targetAbbr,
+                                              @RequestParam("amount") double amount) {
+        BigDecimal convertValue = currencyService.convert(currentAbbr, targetAbbr, amount);
 
         return new ResponseEntity<>(convertValue, HttpStatus.OK);
     }
