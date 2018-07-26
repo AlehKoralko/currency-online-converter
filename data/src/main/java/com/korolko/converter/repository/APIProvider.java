@@ -13,7 +13,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 class APIProvider {
@@ -29,7 +31,7 @@ class APIProvider {
     private HttpURLConnection connection;
 
     @Autowired
-    public APIProvider(CurrencyConverter converter) throws IOException {
+    public APIProvider(CurrencyConverter converter) {
         openConnection();
         currencyDTOs = initCurrenciesFromJson();
         this.converter = converter;
@@ -37,11 +39,17 @@ class APIProvider {
 
     List<Currency> getAllCurrencies() {
         List<Currency> currencies = converter.convertAll(currencyDTOs);
+
+        //This is necessary because the National Bank doesn't provide
+        //data about BYN currency
         currencies.add(getBYNCurrency());
-        return currencies;
+
+        return currencies.stream()
+                .sorted(Comparator.comparing(Currency::getName))
+                .collect(Collectors.toList());
     }
 
-    private void openConnection() throws IOException {
+    private void openConnection() {
         try {
             URL url = new URL(nationalBankUrl);
 
@@ -50,12 +58,9 @@ class APIProvider {
             connection.setReadTimeout(10 * 1000);
             connection.setDoOutput(true);
             connection.connect();
-            logger.info(connection.getContent().toString());
-
         } catch (IOException e) {
             logger.error("Failed to open connection. - " + e);
             e.printStackTrace();
-            throw new IOException();
         }
     }
 
@@ -69,22 +74,14 @@ class APIProvider {
         StringBuilder stringBuilder = null;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-
             stringBuilder = new StringBuilder();
             reader.lines().forEach(stringBuilder::append);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
         return stringBuilder != null ? stringBuilder.toString() : "";
     }
 
-    /**
-     * This is necessary because the National Bank doesn't provide
-     * data about BYN currency
-     *
-     * @return BYN currency
-     */
     private Currency getBYNCurrency() {
         return new Currency(1L,
                 "Белорусский рубль",
