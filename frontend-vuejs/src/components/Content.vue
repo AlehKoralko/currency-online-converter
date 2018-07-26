@@ -18,7 +18,7 @@
             <md-field>
               <label>From</label>
               <md-select name="fromAbbr" id="fromAbbr" v-model="currentCurrency">
-                <md-option v-for="currency in currencies" :value="currency.abbreviation">
+                <md-option v-for="currency in currencies" :value="currency.abbreviation" :key="currency.abbreviation">
                   {{currency.abbreviation}} ({{currency.name}})
                 </md-option>
               </md-select>
@@ -38,7 +38,7 @@
             <md-field>
               <label>To</label>
               <md-select name="toAbbr" id="toAbbr" v-model="targetCurrency">
-                <md-option v-for="currency in currencies" :value="currency.abbreviation">
+                <md-option v-for="currency in currencies" :value="currency.abbreviation" :key="currency.abbreviation">
                   {{currency.abbreviation}} ({{currency.name}})
                 </md-option>
               </md-select>
