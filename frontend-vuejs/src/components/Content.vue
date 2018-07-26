@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <md-card class="md-layout-item md-size-50 md-small-size-100 my-card">
       <md-card-header>
         <div class="md-title">{{welcomeMessage}}</div>
@@ -10,7 +10,7 @@
           <div class="md-layout-item md-small-size-100">
             <md-field>
               <label for="currentAmount">Current amount</label>
-              <md-input type="number" name="currentAmount" id="currentAmount" v-model="currentAmount"/>
+              <md-input type="number" min="0" name="currentAmount" id="currentAmount" v-model="currentAmount"/>
             </md-field>
           </div>
 
@@ -46,9 +46,6 @@
           </div>
         </div>
       </md-card-content>
-      <md-card-actions>
-        <md-button @click="res" class="md-primary">Convert</md-button>
-      </md-card-actions>
     </md-card>
   </div>
 </template>
@@ -69,8 +66,25 @@
         targetAmount: 0
       }
     },
+    watch: {
+      currentCurrency: function () {
+        if (this.currentCurrency && this.targetCurrency && this.currentAmount) {
+          this.convert();
+        }
+      },
+      targetCurrency: function () {
+        if (this.currentCurrency && this.targetCurrency && this.currentAmount) {
+          this.convert();
+        }
+      },
+      currentAmount: function () {
+        if (this.currentCurrency && this.targetCurrency && this.currentAmount) {
+          this.convert();
+        }
+      }
+    },
     methods: {
-      res: function () {
+      convert: function () {
         axios.get('/api/convert', {
           params: {
             current: this.currentCurrency,
@@ -90,8 +104,6 @@
       axios.get('/api')
         .then(currencies => {
           this.currencies = currencies.data;
-          // this.currentCurrency = this.currencies[this.currencies.length - 1];
-          // this.targetCurrency = this.currencies[4];
         })
         .catch(e => {
           this.errors.push(e)
@@ -102,35 +114,7 @@
 
 </script>
 
-<style lang="scss" scoped>
-  h1 {
-    font-weight: normal;
-  }
-  .content {
-
-  }
-  .text-center {
-    text-align: center;
-  }
-  .form {
-    min-height: 200px;
-    max-width: 450px;
-    border: 1px solid darkgrey;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    margin: auto;
-  }
-  .field {
-    margin: 0 0 20px 20px;
-  }
-  small {
-    display: block;
-  }
-  .md-progress-bar {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-  }
+<style scoped>
   .my-card {
     margin: auto;
     overflow-x:hidden;
