@@ -1,15 +1,9 @@
 package com.korolko.converter.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.math.BigDecimal;
 
-@Entity
 public class Currency {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     private String abbreviation;
@@ -26,8 +20,11 @@ public class Currency {
         this.scale = scale;
     }
 
-    public double convertTo(Currency targetCurrency, double amount) {
-        return amount / (targetCurrency.getRateAgainstScale() / this.getRateAgainstScale());
+    public BigDecimal convertTo(Currency targetCurrency, double amount) {
+        BigDecimal result = BigDecimal
+                .valueOf(amount / (targetCurrency.getRateAgainstScale() / this.getRateAgainstScale()));
+
+        return result.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
     private double getRateAgainstScale() {
