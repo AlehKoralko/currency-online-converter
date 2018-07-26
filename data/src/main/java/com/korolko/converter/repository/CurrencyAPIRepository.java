@@ -45,4 +45,19 @@ class CurrencyAPIRepository implements CurrencyRepository {
     public List<Currency> findAll() {
         return currencies;
     }
+
+    @Override
+    public boolean isPresentById(Long id) {
+        return this.findById(id).isPresent();
+    }
+
+    @Override
+    public boolean isPresentByName(String name) {
+        return this.findByName(name).isPresent();
+    }
+
+    @Override
+    public boolean isPresentByAbbreviation(String abbreviation) {
+        return this.findByAbbreviation(abbreviation).isPresent();
+    }
 }
