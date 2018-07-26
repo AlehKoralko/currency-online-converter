@@ -5,16 +5,12 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
 import Content from './components/Content'
-import MyForm from './components/MyForm'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
-    Content,
-    MyForm
+    Content
   }
 }
 </script>
