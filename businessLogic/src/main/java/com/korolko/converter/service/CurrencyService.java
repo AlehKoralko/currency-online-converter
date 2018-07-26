@@ -2,6 +2,7 @@ package com.korolko.converter.service;
 
 import com.korolko.converter.entity.Currency;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,6 @@ public interface CurrencyService {
 
     List<Currency> getAll();
 
-    double convert(String currentAbbr, String targetAbbr, double amount);
+    BigDecimal convert(String currentCurrencyAbbr, String targetCurrencyAbbr, double amount);
 
 }

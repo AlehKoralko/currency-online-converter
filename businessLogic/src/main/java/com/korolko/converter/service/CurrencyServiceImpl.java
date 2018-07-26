@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,17 +44,11 @@ class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public double convert(String currentAbbr, String targetAbbr, double amount) {
-        Optional<Currency> currentCurrency = currencyRepo.findByAbbreviation(currentAbbr);
+    public BigDecimal convert(String currentCurrencyAbbr, String targetCurrencyAbbr, double amount) {
+        Optional<Currency> currentCurrency = currencyRepo.findByAbbreviation(currentCurrencyAbbr);
 
-        if (! currentCurrency.isPresent()) {
-            logger.info(currentAbbr + " Currency not found.");
-            return 0d;
-        }
-
-        logger.info("Convert " + amount + " " + currentAbbr + " to " + targetAbbr);
+        logger.info("Convert " + amount + " " + currentCurrencyAbbr + " to " + targetCurrencyAbbr);
         return currentCurrency.get()
-                .convertTo(currencyRepo.findByAbbreviation(targetAbbr).get(),
-                        amount);
+                .convertTo(currencyRepo.findByAbbreviation(targetCurrencyAbbr).get(), amount);
     }
 }
