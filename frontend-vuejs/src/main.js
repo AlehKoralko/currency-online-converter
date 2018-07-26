@@ -5,7 +5,6 @@ import App from './App'
 
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
-import 'sass-loader'
 
 Vue.use(VueMaterial);
 
