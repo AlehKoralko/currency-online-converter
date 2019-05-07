@@ -44,7 +44,7 @@ public class CurrencyRestController {
     public ResponseEntity<Currency> getCurrencyById(@PathVariable("id") long id) {
         Optional<Currency> currency = currencyService.getById(id);
 
-        if (! currency.isPresent()) {
+        if (!currency.isPresent()) {
             logger.info("Currency with id - " + id + " not found.");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

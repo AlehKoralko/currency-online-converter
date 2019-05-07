@@ -24,7 +24,7 @@
     </properties>
 
     <modules>
-        <module>businessLogic</module>
+        <module>business-logic</module>
         <module>web</module>
         <module>entity</module>
         <module>data</module>

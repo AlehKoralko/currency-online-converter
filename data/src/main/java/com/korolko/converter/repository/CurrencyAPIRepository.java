@@ -10,13 +10,10 @@ import java.util.Optional;
 @Repository
 class CurrencyAPIRepository implements CurrencyRepository {
 
-    private APIProvider provider;
-
     private List<Currency> currencies;
 
     @Autowired
     public CurrencyAPIRepository(APIProvider provider) {
-        this.provider = provider;
         currencies = provider.getAllCurrencies();
     }
 
