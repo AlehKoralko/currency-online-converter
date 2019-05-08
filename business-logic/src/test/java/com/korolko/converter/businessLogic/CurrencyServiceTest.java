@@ -1,6 +1,6 @@
 package com.korolko.converter.businessLogic;
 
-import com.korolko.converter.entity.Currency;
+import com.korolko.converter.domain.Currency;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

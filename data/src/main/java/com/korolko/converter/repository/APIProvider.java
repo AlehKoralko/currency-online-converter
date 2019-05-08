@@ -1,7 +1,7 @@
 package com.korolko.converter.repository;
 
 import com.google.gson.Gson;
-import com.korolko.converter.entity.Currency;
+import com.korolko.converter.domain.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

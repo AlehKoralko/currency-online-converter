@@ -18,9 +18,8 @@
     <dependencies>
         <dependency>
             <groupId>com.korolko.converter</groupId>
-            <artifactId>entity</artifactId>
+            <artifactId>domain</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.korolko.converter</groupId>

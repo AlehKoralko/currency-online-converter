@@ -1,6 +1,6 @@
 package com.korolko.converter.repository;
 
-import com.korolko.converter.entity.Currency;
+import com.korolko.converter.domain.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

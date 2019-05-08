@@ -1,6 +1,6 @@
 package com.korolko.converter.repository;
 
-import com.korolko.converter.entity.Currency;
+import com.korolko.converter.domain.Currency;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

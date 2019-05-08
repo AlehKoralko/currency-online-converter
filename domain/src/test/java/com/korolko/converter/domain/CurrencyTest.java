@@ -1,4 +1,4 @@
-package com.korolko.converter.entity;
+package com.korolko.converter.domain;
 
 import org.junit.Assert;
 import org.junit.Test;

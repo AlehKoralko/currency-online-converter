@@ -1,6 +1,6 @@
 package com.korolko.converter.controller;
 
-import com.korolko.converter.entity.Currency;
+import com.korolko.converter.domain.Currency;
 import com.korolko.converter.service.CurrencyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
