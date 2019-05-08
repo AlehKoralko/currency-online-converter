@@ -18,25 +18,25 @@ import java.util.Optional;
 @RequestMapping(value = "/api")
 public class CurrencyRestController {
 
-    private final CurrencyService currencyService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyRestController.class);
 
-    private final Logger logger = LoggerFactory.getLogger(CurrencyRestController.class);
+    private CurrencyService currencyService;
 
     @Autowired
     public CurrencyRestController(CurrencyService currencyService) {
         this.currencyService = currencyService;
     }
 
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Currency>> getAllCurrencies() {
         List<Currency> currencies = currencyService.getAll();
 
         if (currencies == null) {
-            logger.info("Currencies are not found.");
+            LOGGER.info("Currencies are not found.");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        logger.info("Get all currencies.");
+        LOGGER.info("Get all currencies.");
         return new ResponseEntity<>(currencyService.getAll(), HttpStatus.OK);
     }
 
@@ -45,11 +45,11 @@ public class CurrencyRestController {
         Optional<Currency> currency = currencyService.getById(id);
 
         if (!currency.isPresent()) {
-            logger.info("Currency with id - " + id + " not found.");
+            LOGGER.info("Currency with id - " + id + " not found.");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        logger.info("Get currency with id - " + id);
+        LOGGER.info("Get currency with id - " + id);
         return new ResponseEntity<>(currency.get(), HttpStatus.OK);
     }
 

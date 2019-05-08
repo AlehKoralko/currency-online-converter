@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.korolko.converter.domain.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,24 +15,20 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
-class APIProvider {
+public class APIProvider {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(APIProvider.class);
 
     private List<CurrencyDTO> currencyDTOs;
-
     private CurrencyConverter converter;
-
-    private final String nationalBankUrl = "http://www.nbrb.by/API/ExRates/Rates?Periodicity=0";
-
-    private Logger logger = LoggerFactory.getLogger(APIProvider.class);
-
+    private String currencyApiUrl;
     private HttpURLConnection connection;
 
-    @Autowired
-    public APIProvider(CurrencyConverter converter) {
+    public APIProvider(CurrencyConverter converter, String currencyApiUrl) {
+        this.currencyApiUrl = currencyApiUrl;
+        this.converter = converter;
         openConnection();
         currencyDTOs = initCurrenciesFromJson();
-        this.converter = converter;
     }
 
     List<Currency> getAllCurrencies() {
@@ -51,7 +45,7 @@ class APIProvider {
 
     private void openConnection() {
         try {
-            URL url = new URL(nationalBankUrl);
+            URL url = new URL(currencyApiUrl);
 
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -59,7 +53,7 @@ class APIProvider {
             connection.setDoOutput(true);
             connection.connect();
         } catch (IOException e) {
-            logger.error("Failed to open connection. - " + e);
+            LOGGER.error("Failed to open connection. - " + e);
             e.printStackTrace();
         }
     }

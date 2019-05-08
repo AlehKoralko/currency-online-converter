@@ -29,6 +29,8 @@
         <module>domain</module>
         <module>data</module>
         <module>frontend-vuejs</module>
+        <module>common-config</module>
+        <module>app</module>
     </modules>
 
     <dependencies>

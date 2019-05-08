@@ -1,18 +1,14 @@
 package com.korolko.converter.repository;
 
 import com.korolko.converter.domain.Currency;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-class CurrencyAPIRepository implements CurrencyRepository {
+public class CurrencyAPIRepository implements CurrencyRepository {
 
     private List<Currency> currencies;
 
-    @Autowired
     public CurrencyAPIRepository(APIProvider provider) {
         currencies = provider.getAllCurrencies();
     }
