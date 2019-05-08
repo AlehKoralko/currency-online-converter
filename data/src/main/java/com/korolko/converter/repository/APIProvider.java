@@ -31,7 +31,7 @@ public class APIProvider {
         currencyDTOs = initCurrenciesFromJson();
     }
 
-    List<Currency> getAllCurrencies() {
+    public List<Currency> getAllCurrencies() {
         List<Currency> currencies = converter.convertAll(currencyDTOs);
 
         //This is necessary because the National Bank doesn't provide

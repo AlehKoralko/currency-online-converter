@@ -9,8 +9,8 @@ public class CurrencyAPIRepository implements CurrencyRepository {
 
     private List<Currency> currencies;
 
-    public CurrencyAPIRepository(APIProvider provider) {
-        currencies = provider.getAllCurrencies();
+    public CurrencyAPIRepository(List<Currency> currencies) {
+        this.currencies = currencies;
     }
 
     @Override

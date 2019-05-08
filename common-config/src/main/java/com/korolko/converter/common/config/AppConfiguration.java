@@ -28,7 +28,7 @@ public class AppConfiguration {
 
     @Bean
     public CurrencyRepository currencyRepository() {
-        return new CurrencyAPIRepository(apiProvider());
+        return new CurrencyAPIRepository(apiProvider().getAllCurrencies());
     }
 
     @Bean

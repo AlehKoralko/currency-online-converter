@@ -33,6 +33,7 @@
         <module>frontend-vuejs</module>
         <module>common-config</module>
         <module>app</module>
+        <module>repository</module>
     </modules>
 
     <dependencies>
