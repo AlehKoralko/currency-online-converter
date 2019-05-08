@@ -21,6 +21,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <executable.jar.location>app/target/web-1.0-SNAPSHOT.jar</executable.jar.location>
+        <heroku.plugin.version>2.0.9</heroku.plugin.version>
     </properties>
 
     <modules>
@@ -45,4 +47,18 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.heroku.sdk</groupId>
+                <artifactId>heroku-maven-plugin</artifactId>
+                <version>${heroku.plugin.version}</version>
+                <configuration>
+                    <processTypes>
+                        <web>java -Dserver.port=$PORT -jar ${executable.jar.location}}</web>
+                    </processTypes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
