@@ -37,7 +37,7 @@ public class CurrencyRestController {
         }
 
         LOGGER.info("Get all currencies.");
-        return new ResponseEntity<>(currencyService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(currencies, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

@@ -1,14 +1,15 @@
 package com.korolko.converter.common.config;
 
-import com.korolko.converter.repository.APIProvider;
 import com.korolko.converter.repository.CurrencyAPIRepository;
-import com.korolko.converter.repository.CurrencyConverter;
 import com.korolko.converter.repository.CurrencyRepository;
 import com.korolko.converter.service.CurrencyService;
 import com.korolko.converter.service.CurrencyServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 @Configuration
 public class AppConfiguration {
@@ -16,19 +17,21 @@ public class AppConfiguration {
     @Value("${currency.api.url}")
     private String currencyApiUrl;
 
-    @Bean
-    public CurrencyConverter currencyConverter() {
-        return new CurrencyConverter();
-    }
+    @Value("${currency.api.timeout}")
+    private int timeoutInMilliseconds;
 
     @Bean
-    public APIProvider apiProvider() {
-        return new APIProvider(currencyConverter(), currencyApiUrl);
+    public RestTemplate restTemplate() {
+        return new RestTemplateBuilder()
+                .setConnectTimeout(timeoutInMilliseconds)
+                .setReadTimeout(timeoutInMilliseconds)
+                .uriTemplateHandler(new DefaultUriBuilderFactory(currencyApiUrl))
+                .build();
     }
 
     @Bean
     public CurrencyRepository currencyRepository() {
-        return new CurrencyAPIRepository(apiProvider().getAllCurrencies());
+        return new CurrencyAPIRepository(restTemplate());
     }
 
     @Bean

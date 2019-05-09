@@ -42,9 +42,12 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     public BigDecimal convert(String currentCurrencyAbbr, String targetCurrencyAbbr, double amount) {
         Optional<Currency> currentCurrency = currencyRepository.findByAbbreviation(currentCurrencyAbbr);
+        Optional<Currency> targetCurrency = currencyRepository.findByAbbreviation(targetCurrencyAbbr);
 
-        LOGGER.info("Convert " + amount + " " + currentCurrencyAbbr + " to " + targetCurrencyAbbr);
-        return currentCurrency.get()
-                .convertTo(currencyRepository.findByAbbreviation(targetCurrencyAbbr).get(), amount);
+        if (currentCurrency.isPresent() && targetCurrency.isPresent()) {
+            LOGGER.info("Convert " + amount + " " + currentCurrencyAbbr + " to " + targetCurrencyAbbr);
+            return currentCurrency.get().convertTo(targetCurrency.get(), amount);
+        }
+        return BigDecimal.ZERO;
     }
 }

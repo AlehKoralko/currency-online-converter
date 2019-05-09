@@ -23,13 +23,14 @@
         <java.version>1.8</java.version>
         <executable.jar.location>app/target/web-1.0-SNAPSHOT.jar</executable.jar.location>
         <heroku.plugin.version>2.0.9</heroku.plugin.version>
+        <commons.lang3.version>3.9</commons.lang3.version>
+        <lombok.version>1.18.8</lombok.version>
     </properties>
 
     <modules>
         <module>service</module>
         <module>web</module>
         <module>domain</module>
-        <module>data</module>
         <module>frontend-vuejs</module>
         <module>common-config</module>
         <module>app</module>
@@ -41,10 +42,20 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

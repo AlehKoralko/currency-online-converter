@@ -3,23 +3,30 @@ package com.korolko.converter.domain;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Currency {
 
+    @JsonProperty(value = "Cur_ID", access = JsonProperty.Access.WRITE_ONLY)
     private long id;
+
+    @JsonProperty(value = "Cur_Name", access = JsonProperty.Access.READ_WRITE)
     private String name;
+
+    @JsonProperty(value = "Cur_Abbreviation", access = JsonProperty.Access.READ_WRITE)
     private String abbreviation;
+
+    @JsonProperty(value = "Cur_OfficialRate", access = JsonProperty.Access.WRITE_ONLY)
     private double rate;
+
+    @JsonProperty(value = "Cur_Scale", access = JsonProperty.Access.WRITE_ONLY)
     private int scale;
-
-    public Currency() {}
-
-    public Currency(long id, String name, String abbreviation, double rate, int scale) {
-        this.id = id;
-        this.name = name;
-        this.abbreviation = abbreviation;
-        this.rate = rate;
-        this.scale = scale;
-    }
 
     public BigDecimal convertTo(Currency targetCurrency, double amount) {
         BigDecimal result = BigDecimal
@@ -30,56 +37,5 @@ public class Currency {
 
     private double getRateAgainstScale() {
         return this.rate / this.scale;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAbbreviation() {
-        return abbreviation;
-    }
-
-    public void setAbbreviation(String abbreviation) {
-        this.abbreviation = abbreviation;
-    }
-
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
-    }
-
-    public int getScale() {
-        return scale;
-    }
-
-    public void setScale(int scale) {
-        this.scale = scale;
-    }
-
-    @Override
-    public String toString() {
-        return "Currency{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", abbreviation='" + abbreviation + '\'' +
-                ", rate=" + rate +
-                ", scale=" + scale +
-                "}]";
     }
 }
