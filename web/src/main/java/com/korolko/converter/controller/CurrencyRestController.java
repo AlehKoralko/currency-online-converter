@@ -30,7 +30,7 @@ public class CurrencyRestController {
     public ResponseEntity<List<Currency>> getAllCurrencies() {
         List<Currency> currencies = currencyService.getAll();
 
-        if (currencies == null) {
+        if (currencies.isEmpty()) {
             LOGGER.info("Currencies are not found.");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -44,8 +44,7 @@ public class CurrencyRestController {
     public ResponseEntity<BigDecimal> convert(@RequestParam("current") String currentAbbr,
                                               @RequestParam("target") String targetAbbr,
                                               @RequestParam("amount") double amount) {
-        BigDecimal convertValue = currencyService.convert(currentAbbr, targetAbbr, amount);
-
-        return new ResponseEntity<>(convertValue, HttpStatus.OK);
+        BigDecimal convertedValue = currencyService.convert(currentAbbr, targetAbbr, amount);
+        return new ResponseEntity<>(convertedValue, HttpStatus.OK);
     }
 }

@@ -2,8 +2,6 @@ package com.korolko.converter.service;
 
 import com.korolko.converter.domain.Currency;
 import com.korolko.converter.repository.CurrencyRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,8 +10,6 @@ import java.util.Optional;
 public class CurrencyServiceImpl implements CurrencyService {
 
     private CurrencyRepository currencyRepository;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyServiceImpl.class);
 
     public CurrencyServiceImpl(CurrencyRepository currencyRepository) {
         this.currencyRepository = currencyRepository;
@@ -35,13 +31,12 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public BigDecimal convert(String currentCurrencyAbbr, String targetCurrencyAbbr, double amount) {
+    public BigDecimal convert(String currentCurrencyAbbr, String targetCurrencyAbbr, double amountOfCurrentCurrency) {
         Optional<Currency> currentCurrency = currencyRepository.findByAbbreviation(currentCurrencyAbbr);
         Optional<Currency> targetCurrency = currencyRepository.findByAbbreviation(targetCurrencyAbbr);
 
         if (currentCurrency.isPresent() && targetCurrency.isPresent()) {
-            LOGGER.info("Convert " + amount + " " + currentCurrencyAbbr + " to " + targetCurrencyAbbr);
-            return currentCurrency.get().convertTo(targetCurrency.get(), amount);
+            return CurrencyConverter.convert(currentCurrency.get(), targetCurrency.get(), amountOfCurrentCurrency);
         }
         return BigDecimal.ZERO;
     }

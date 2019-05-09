@@ -2,7 +2,6 @@ package com.korolko.converter.repository;
 
 import com.korolko.converter.domain.Currency;
 import com.korolko.converter.repository.exception.CurrencyNotFoundRuntimeException;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,9 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -32,7 +33,8 @@ public class CurrencyAPIRepository implements CurrencyRepository {
     @PostConstruct
     @Scheduled(fixedDelayString = "${currency.api.delay}")
     public void init() {
-        findAll();
+        currencies = loadCurrencies();
+        LOGGER.info("Loaded '{}' currency rates", currencies.size());
     }
 
     @Override
@@ -51,21 +53,19 @@ public class CurrencyAPIRepository implements CurrencyRepository {
 
     @Override
     public List<Currency> findAll() {
-        currencies = Stream.of(getCurrenciesFromRestTemplate()).collect(Collectors.toCollection(ArrayList::new));
-        LOGGER.info("Loaded '{}' currency rates", currencies.size());
         return currencies;
     }
 
-    private Currency[] getCurrenciesFromRestTemplate() {
+    private List<Currency> loadCurrencies() {
         try {
-            ResponseEntity<Currency[]> responseEntity = restTemplate.getForEntity(Strings.EMPTY, Currency[].class);
-            if (responseEntity.getStatusCode() == HttpStatus.OK && ArrayUtils.isNotEmpty(responseEntity.getBody())) {
-                return responseEntity.getBody();
+            ResponseEntity<Currency[]> response = restTemplate.getForEntity(Strings.EMPTY, Currency[].class);
+            if (response.getStatusCode() == HttpStatus.OK && Objects.nonNull(response.getBody())) {
+                return Stream.of(response.getBody()).collect(Collectors.toCollection(ArrayList::new));
             }
             throw new CurrencyNotFoundRuntimeException();
         } catch (RuntimeException e) {
             LOGGER.error("Failed to load currency rates.", e);
-            return new Currency[0];
+            return Collections.emptyList();
         }
     }
 }
