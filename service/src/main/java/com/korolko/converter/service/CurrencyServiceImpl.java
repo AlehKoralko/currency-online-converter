@@ -20,11 +20,6 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public Optional<Currency> getById(long id) {
-        return currencyRepository.findById(id);
-    }
-
-    @Override
     public Optional<Currency> getByName(String name) {
         return currencyRepository.findByName(name);
     }

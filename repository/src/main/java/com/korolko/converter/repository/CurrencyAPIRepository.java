@@ -36,13 +36,6 @@ public class CurrencyAPIRepository implements CurrencyRepository {
     }
 
     @Override
-    public Optional<Currency> findById(long id) {
-        return currencies.stream()
-                .filter(currency -> currency.getId() == id)
-                .findFirst();
-    }
-
-    @Override
     public Optional<Currency> findByName(String name) {
         return currencies.stream()
                 .filter(currency -> currency.getName().equals(name))
@@ -61,21 +54,6 @@ public class CurrencyAPIRepository implements CurrencyRepository {
         currencies = Stream.of(getCurrenciesFromRestTemplate()).collect(Collectors.toCollection(ArrayList::new));
         LOGGER.info("Loaded '{}' currency rates", currencies.size());
         return currencies;
-    }
-
-    @Override
-    public boolean isPresentById(Long id) {
-        return this.findById(id).isPresent();
-    }
-
-    @Override
-    public boolean isPresentByName(String name) {
-        return this.findByName(name).isPresent();
-    }
-
-    @Override
-    public boolean isPresentByAbbreviation(String abbreviation) {
-        return this.findByAbbreviation(abbreviation).isPresent();
     }
 
     private Currency[] getCurrenciesFromRestTemplate() {

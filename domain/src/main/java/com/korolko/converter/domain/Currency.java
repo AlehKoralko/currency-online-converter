@@ -13,9 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Currency {
 
-    @JsonProperty(value = "Cur_ID", access = JsonProperty.Access.WRITE_ONLY)
-    private long id;
-
     @JsonProperty(value = "Cur_Name", access = JsonProperty.Access.READ_WRITE)
     private String name;
 

@@ -8,8 +8,6 @@ import java.util.Optional;
 
 public interface CurrencyService {
 
-    Optional<Currency> getById(long id);
-
     Optional<Currency> getByName(String name);
 
     Optional<Currency> getByAbbreviation(String abbreviation);
@@ -17,5 +15,4 @@ public interface CurrencyService {
     List<Currency> getAll();
 
     BigDecimal convert(String currentCurrencyAbbr, String targetCurrencyAbbr, double amount);
-
 }
