@@ -1,6 +1,9 @@
-/bin/
-/target/
+bin/
+target/
 .*
 *.log
 !.gitignore
-.iml
+*.iml
+**/static/css/*
+**/static/js/*
+**/public/index.html
