@@ -35,9 +35,8 @@ public class CurrencyServiceImpl implements CurrencyService {
         Optional<Currency> currentCurrency = currencyRepository.findByAbbreviation(currentCurrencyAbbr);
         Optional<Currency> targetCurrency = currencyRepository.findByAbbreviation(targetCurrencyAbbr);
 
-        if (currentCurrency.isPresent() && targetCurrency.isPresent()) {
-            return CurrencyConverter.convert(currentCurrency.get(), targetCurrency.get(), amountOfCurrentCurrency);
-        }
-        return BigDecimal.ZERO;
+        return currentCurrency.isPresent() && targetCurrency.isPresent()
+                ? CurrencyConverter.convert(currentCurrency.get(), targetCurrency.get(), amountOfCurrentCurrency)
+                : BigDecimal.ZERO;
     }
 }

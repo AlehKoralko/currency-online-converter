@@ -2,7 +2,6 @@ package com.korolko.converter.repository;
 
 import com.korolko.converter.domain.Currency;
 import com.korolko.converter.repository.exception.CurrencyNotFoundRuntimeException;
-import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,14 +23,16 @@ public class CurrencyAPIRepository implements CurrencyRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyAPIRepository.class);
 
     private RestTemplate restTemplate;
+    private String currencyApiUrl;
     private List<Currency> currencies;
 
-    public CurrencyAPIRepository(RestTemplate restTemplate) {
+    public CurrencyAPIRepository(RestTemplate restTemplate, String currencyApiUrl) {
         this.restTemplate = restTemplate;
+        this.currencyApiUrl = currencyApiUrl;
     }
 
     @PostConstruct
-    @Scheduled(fixedDelayString = "${currency.api.delay}")
+    @Scheduled(fixedDelayString = "${currency.api.scheduler.delay}")
     public void init() {
         currencies = loadCurrencies();
         LOGGER.info("Loaded '{}' currency rates", currencies.size());
@@ -58,7 +59,7 @@ public class CurrencyAPIRepository implements CurrencyRepository {
 
     private List<Currency> loadCurrencies() {
         try {
-            ResponseEntity<Currency[]> response = restTemplate.getForEntity(Strings.EMPTY, Currency[].class);
+            ResponseEntity<Currency[]> response = restTemplate.getForEntity(currencyApiUrl, Currency[].class);
             if (response.getStatusCode() == HttpStatus.OK && Objects.nonNull(response.getBody())) {
                 return Stream.of(response.getBody()).collect(Collectors.toCollection(ArrayList::new));
             }
