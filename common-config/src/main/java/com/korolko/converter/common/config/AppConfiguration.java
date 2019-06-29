@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.DefaultUriBuilderFactory;
 
 @Configuration
 @EnableScheduling
@@ -27,13 +26,12 @@ public class AppConfiguration {
         return new RestTemplateBuilder()
                 .setConnectTimeout(timeoutInMilliseconds)
                 .setReadTimeout(timeoutInMilliseconds)
-                .uriTemplateHandler(new DefaultUriBuilderFactory(currencyApiUrl))
                 .build();
     }
 
     @Bean
     public CurrencyRepository currencyRepository() {
-        return new CurrencyAPIRepository(restTemplate());
+        return new CurrencyAPIRepository(restTemplate(), currencyApiUrl);
     }
 
     @Bean

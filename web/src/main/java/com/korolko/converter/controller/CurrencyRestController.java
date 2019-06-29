@@ -35,12 +35,10 @@ public class CurrencyRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        LOGGER.info("Get all currencies.");
         return new ResponseEntity<>(currencies, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/convert", params = {"current", "target", "amount"},
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/convert", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<BigDecimal> convert(@RequestParam("current") String currentAbbr,
                                               @RequestParam("target") String targetAbbr,
                                               @RequestParam("amount") double amount) {
