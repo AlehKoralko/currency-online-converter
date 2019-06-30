@@ -1,7 +1,7 @@
 package com.korolko.converter.repository;
 
 import com.korolko.converter.domain.Currency;
-import com.korolko.converter.repository.exception.CurrencyNotFoundRuntimeException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,19 +22,16 @@ public class CurrencyAPIRepository implements CurrencyRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyAPIRepository.class);
 
     private RestTemplate restTemplate;
-    private String currencyApiUrl;
     private List<Currency> currencies;
 
-    public CurrencyAPIRepository(RestTemplate restTemplate, String currencyApiUrl) {
+    public CurrencyAPIRepository(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.currencyApiUrl = currencyApiUrl;
     }
 
     @PostConstruct
     @Scheduled(fixedDelayString = "${currency.api.scheduler.delay}")
     public void init() {
-        currencies = loadCurrencies();
-        LOGGER.info("Loaded '{}' currency rates", currencies.size());
+        loadCurrencies();
     }
 
     @Override
@@ -57,16 +53,15 @@ public class CurrencyAPIRepository implements CurrencyRepository {
         return currencies;
     }
 
-    private List<Currency> loadCurrencies() {
+    private void loadCurrencies() {
         try {
-            ResponseEntity<Currency[]> response = restTemplate.getForEntity(currencyApiUrl, Currency[].class);
+            ResponseEntity<Currency[]> response = restTemplate.getForEntity(StringUtils.EMPTY, Currency[].class);
             if (response.getStatusCode() == HttpStatus.OK && Objects.nonNull(response.getBody())) {
-                return Stream.of(response.getBody()).collect(Collectors.toCollection(ArrayList::new));
+                currencies = Stream.of(response.getBody()).collect(Collectors.toCollection(ArrayList::new));
+                LOGGER.info("Loaded '{}' currency rates", currencies.size());
             }
-            throw new CurrencyNotFoundRuntimeException();
         } catch (RuntimeException e) {
-            LOGGER.error("Failed to load currency rates.", e);
-            return Collections.emptyList();
+            LOGGER.error("Failed to load currency rates. Obsolete data is used", e);
         }
     }
 }
