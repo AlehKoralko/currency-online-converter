@@ -4,8 +4,8 @@ import com.korolko.converter.domain.Currency;
 import com.korolko.converter.repository.CurrencyRepository;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class CurrencyServiceImpl implements CurrencyService {
 
@@ -26,7 +26,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public List<Currency> getAll() {
+    public Set<Currency> getAll() {
         return currencyRepository.findAll();
     }
 
