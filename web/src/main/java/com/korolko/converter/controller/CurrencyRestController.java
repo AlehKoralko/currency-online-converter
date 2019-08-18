@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -27,8 +27,8 @@ public class CurrencyRestController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<Currency>> getAllCurrencies() {
-        List<Currency> currencies = currencyService.getAll();
+    public ResponseEntity<Set<Currency>> getAllCurrencies() {
+        Set<Currency> currencies = currencyService.getAll();
 
         if (currencies.isEmpty()) {
             LOGGER.info("Currencies are not found.");
