@@ -32,7 +32,6 @@
         <module>web</module>
         <module>domain</module>
         <module>frontend-vuejs</module>
-        <module>common-config</module>
         <module>app</module>
         <module>repository</module>
     </modules>

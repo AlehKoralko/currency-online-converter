@@ -1,12 +1,10 @@
-package com.korolko.converter.common.config;
+package com.korolko.converter.repository.config;
 
 import com.korolko.converter.repository.ApiCurrencyLoader;
 import com.korolko.converter.repository.CurrencyLoader;
 import com.korolko.converter.repository.CurrencyRepository;
 import com.korolko.converter.repository.DefaultCurrencyRepository;
 import com.korolko.converter.repository.ResourceCurrencyLoader;
-import com.korolko.converter.service.CurrencyService;
-import com.korolko.converter.service.CurrencyServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +15,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 @Configuration
 @EnableScheduling
-public class AppConfiguration {
+public class RepositoryConfiguration {
 
     @Value("${currency.api.url}")
     private String currencyApiUrl;
@@ -49,10 +47,5 @@ public class AppConfiguration {
     @Bean
     public CurrencyRepository currencyRepository() {
         return new DefaultCurrencyRepository(apiCurrencyLoader(), resourceCurrencyLoader());
-    }
-
-    @Bean
-    public CurrencyService currencyService() {
-        return new CurrencyServiceImpl(currencyRepository());
     }
 }
