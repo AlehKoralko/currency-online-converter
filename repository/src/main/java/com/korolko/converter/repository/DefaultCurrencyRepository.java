@@ -15,20 +15,16 @@ public class DefaultCurrencyRepository implements CurrencyRepository, Initializi
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCurrencyRepository.class);
 
     private Set<Currency> currencies;
-    private CurrencyLoader[] currencyLoaders;
+    private CurrencyLoader currencyLoader;
 
-    public DefaultCurrencyRepository(CurrencyLoader... currencyLoaders) {
-        this.currencyLoaders = currencyLoaders;
+    public DefaultCurrencyRepository(CurrencyLoader currencyLoader) {
+        this.currencyLoader = currencyLoader;
     }
 
     @Override
     @Scheduled(fixedDelayString = "${currency.api.scheduler.delay}")
     public void afterPropertiesSet() throws Exception {
-        Set<Currency> newCurrencies = new TreeSet<>();
-        for (CurrencyLoader currencyLoader : currencyLoaders) {
-            newCurrencies.addAll(currencyLoader.loadCurrencies());
-        }
-        currencies = newCurrencies;
+        currencies = new TreeSet<>(currencyLoader.loadCurrencies());
         LOGGER.info("Loaded '{}' currency rates", currencies.size());
     }
 

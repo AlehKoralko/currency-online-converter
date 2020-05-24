@@ -7,5 +7,5 @@ import java.util.Set;
 @FunctionalInterface
 public interface CurrencyLoader {
 
-    Set<Currency> loadCurrencies() throws Exception;
+    Set<Currency> loadCurrencies();
 }

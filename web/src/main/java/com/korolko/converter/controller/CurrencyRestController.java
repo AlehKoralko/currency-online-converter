@@ -1,6 +1,8 @@
 package com.korolko.converter.controller;
 
+import com.korolko.converter.domain.ConversionContainer;
 import com.korolko.converter.domain.Currency;
+import com.korolko.converter.service.CurrencyConverter;
 import com.korolko.converter.service.CurrencyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +21,12 @@ public class CurrencyRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyRestController.class);
 
+    private CurrencyConverter converter;
     private CurrencyService currencyService;
 
     @Autowired
-    public CurrencyRestController(CurrencyService currencyService) {
+    public CurrencyRestController(CurrencyConverter converter, CurrencyService currencyService) {
+        this.converter = converter;
         this.currencyService = currencyService;
     }
 
@@ -41,8 +45,9 @@ public class CurrencyRestController {
     @GetMapping(value = "/convert", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<BigDecimal> convert(@RequestParam("current") String currentAbbr,
                                               @RequestParam("target") String targetAbbr,
-                                              @RequestParam("amount") double amount) {
-        BigDecimal convertedValue = currencyService.convert(currentAbbr, targetAbbr, amount);
+                                              @RequestParam("amount") BigDecimal amount) {
+        ConversionContainer container = new ConversionContainer(currentAbbr, targetAbbr, amount);
+        BigDecimal convertedValue = converter.convert(container);
         return new ResponseEntity<>(convertedValue, HttpStatus.OK);
     }
 }

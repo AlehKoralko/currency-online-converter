@@ -1,10 +1,6 @@
 package com.korolko.converter.repository.config;
 
-import com.korolko.converter.repository.ApiCurrencyLoader;
-import com.korolko.converter.repository.CurrencyLoader;
-import com.korolko.converter.repository.CurrencyRepository;
-import com.korolko.converter.repository.DefaultCurrencyRepository;
-import com.korolko.converter.repository.ResourceCurrencyLoader;
+import com.korolko.converter.repository.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +32,14 @@ public class RepositoryConfiguration {
     }
 
     @Bean
+    public CurrencyLoader chainCurrencyLoader() {
+        return new ChainCurrencyLoader(
+                apiCurrencyLoader(),
+                resourceCurrencyLoader()
+        );
+    }
+
+    @Bean
     public CurrencyLoader apiCurrencyLoader() {
         return new ApiCurrencyLoader(restTemplate());
     }
@@ -46,6 +50,6 @@ public class RepositoryConfiguration {
 
     @Bean
     public CurrencyRepository currencyRepository() {
-        return new DefaultCurrencyRepository(apiCurrencyLoader(), resourceCurrencyLoader());
+        return new DefaultCurrencyRepository(chainCurrencyLoader());
     }
 }
