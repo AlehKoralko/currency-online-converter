@@ -9,6 +9,8 @@ import java.math.RoundingMode;
 public class CurrencyConverter {
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyConverter.class);
 
+    private static final String CONVERT_LOG_TEMPLATE = "Convert '{}' of '{}' to '{}' of '{}'";
+
     private final CurrencyService currencyService;
 
     public CurrencyConverter(CurrencyService currencyService) {
@@ -17,11 +19,14 @@ public class CurrencyConverter {
 
     public BigDecimal convert(ConversionContainer container) {
         BigDecimal amount = container.getAmount();
-        Currency source = getCurrency(container.getSourceAbbreviation());
-        Currency target = getCurrency(container.getTargetAbbreviation());
+        String sourceAbbreviation = container.getSourceAbbreviation();
+        String targetAbbreviation = container.getTargetAbbreviation();
+
+        Currency source = getCurrency(sourceAbbreviation);
+        Currency target = getCurrency(targetAbbreviation);
         BigDecimal result = amount.multiply(getCurrenciesRation(source, target));
-        LOGGER.info("Convert '{}' of '{}' to '{}' of '{}'", amount, source.getAbbreviation(),
-                result, target.getAbbreviation());
+
+        LOGGER.info(CONVERT_LOG_TEMPLATE, amount, sourceAbbreviation, result, targetAbbreviation);
         return result;
     }
 
