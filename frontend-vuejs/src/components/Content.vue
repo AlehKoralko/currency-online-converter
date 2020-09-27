@@ -91,11 +91,9 @@
             target: this.targetCurrency,
             amount: this.currentAmount
           }
-        })
-          .then(response => {
+        }).then(response => {
             this.targetAmount = response.data;
-          })
-          .catch(e => {
+        }).catch(e => {
             this.errors.push(e)
         });
       }

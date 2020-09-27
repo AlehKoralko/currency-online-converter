@@ -29,11 +29,12 @@
 
     <modules>
         <module>service</module>
-        <module>web</module>
-        <module>domain</module>
+        <module>rest</module>
         <module>frontend-vuejs</module>
-        <module>app</module>
-        <module>repository</module>
+        <module>web-app</module>
+        <module>loading-manager</module>
+        <module>loader-api</module>
+        <module>loader-json</module>
     </modules>
 
     <dependencies>
